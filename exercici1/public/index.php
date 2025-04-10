@@ -1,15 +1,14 @@
 <?php
-
-// Importa los archivos que contienen las consultas con PDO y MySQLi
 require_once __DIR__ . '/../src/pdo.php';
 require_once __DIR__ . '/../src/mysqli.php';
 
-// Ejecuta e incluye los resultados obtenidos desde pdo.php
-$pdoResults = include __DIR__ . '/../src/pdo.php';
+$pdo = new UsuarisPDO();
+$mysqli = new UsuarisMySQLi();
 
-// Ejecuta e incluye los resultados obtenidos desde mysqli.php
-$mysqliResults = include __DIR__ . '/../src/mysqli.php';
-
+$usuarisPDOSimple = $pdo->getUsuarisMajors25Simple();
+$usuarisPDOPreparada = $pdo->getUsuarisMajors25Preparada();
+$usuarisMySQLiSimple = $mysqli->getUsuarisMajors25Simple();
+$usuarisMySQLiPreparada = $mysqli->getUsuarisMajors25Preparada();
 ?>
 
 <!DOCTYPE html>
@@ -17,31 +16,111 @@ $mysqliResults = include __DIR__ . '/../src/mysqli.php';
 
 <head>
     <meta charset="UTF-8">
-    <title>Exercici 1 - Consultes bàsiques amb PDO i MySQLi</title>
+    <title>Usuaris majors de 25 anys</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        h2 {
+            margin-top: 30px;
+            color: #333;
+        }
+    </style>
 </head>
 
 <body>
-    <!-- Sección de resultados obtenidos con PDO -->
-    <h1>Resultats amb PDO</h1>
+    <h1>Usuaris majors de 25 anys</h1>
 
-    <!-- Muestra los resultados de una consulta simple con PDO -->
-    <h2>Consulta simple</h2>
-    <pre><?php print_r($pdoResults['simple']); ?></pre>
+    <h2>PDO - Consulta Simple</h2>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Nom</th>
+            <th>Email</th>
+            <th>Edat</th>
+        </tr>
+        <?php foreach ($usuarisPDOSimple as $usuari): ?>
+            <tr>
+                <td><?= htmlspecialchars($usuari['id']) ?></td>
+                <td><?= htmlspecialchars($usuari['nom']) ?></td>
+                <td><?= htmlspecialchars($usuari['email']) ?></td>
+                <td><?= htmlspecialchars($usuari['edat']) ?></td>
+            </tr>
+        <?php endforeach; ?>
+    </table>
 
-    <!-- Muestra los resultados de una consulta preparada con PDO -->
-    <h2>Consulta preparada</h2>
-    <pre><?php print_r($pdoResults['prepared']); ?></pre>
+    <h2>PDO - Consulta Preparada</h2>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Nom</th>
+            <th>Email</th>
+            <th>Edat</th>
+        </tr>
+        <?php foreach ($usuarisPDOPreparada as $usuari): ?>
+            <tr>
+                <td><?= htmlspecialchars($usuari['id']) ?></td>
+                <td><?= htmlspecialchars($usuari['nom']) ?></td>
+                <td><?= htmlspecialchars($usuari['email']) ?></td>
+                <td><?= htmlspecialchars($usuari['edat']) ?></td>
+            </tr>
+        <?php endforeach; ?>
+    </table>
 
-    <!-- Sección de resultados obtenidos con MySQLi -->
-    <h1>Resultats amb MySQLi</h1>
+    <h2>MySQLi - Consulta Simple</h2>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Nom</th>
+            <th>Email</th>
+            <th>Edat</th>
+        </tr>
+        <?php foreach ($usuarisMySQLiSimple as $usuari): ?>
+            <tr>
+                <td><?= htmlspecialchars($usuari['id']) ?></td>
+                <td><?= htmlspecialchars($usuari['nom']) ?></td>
+                <td><?= htmlspecialchars($usuari['email']) ?></td>
+                <td><?= htmlspecialchars($usuari['edat']) ?></td>
+            </tr>
+        <?php endforeach; ?>
+    </table>
 
-    <!-- Muestra los resultados de una consulta simple con MySQLi -->
-    <h2>Consulta simple</h2>
-    <pre><?php print_r($mysqliResults['simple']); ?></pre>
-
-    <!-- Muestra los resultados de una consulta preparada con MySQLi -->
-    <h2>Consulta preparada</h2>
-    <pre><?php print_r($mysqliResults['prepared']); ?></pre>
+    <h2>MySQLi - Consulta Preparada</h2>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Nom</th>
+            <th>Email</th>
+            <th>Edat</th>
+        </tr>
+        <?php foreach ($usuarisMySQLiPreparada as $usuari): ?>
+            <tr>
+                <td><?= htmlspecialchars($usuari['id']) ?></td>
+                <td><?= htmlspecialchars($usuari['nom']) ?></td>
+                <td><?= htmlspecialchars($usuari['email']) ?></td>
+                <td><?= htmlspecialchars($usuari['edat']) ?></td>
+            </tr>
+        <?php endforeach; ?>
+    </table>
 </body>
 
 </html>
