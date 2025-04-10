@@ -9,10 +9,13 @@ class Comanda extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['usuari_id'];
+    protected $table = 'comandes';
+
+    // Afegeix aquesta línia
+    protected $fillable = ['usuari_id', 'producte', 'quantitat'];
 
     public function usuari()
     {
-        return $this->belongsTo(Usuari::class);
+        return $this->belongsTo(Usuari::class, 'usuari_id');
     }
 }

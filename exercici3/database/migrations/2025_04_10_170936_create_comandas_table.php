@@ -11,10 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('comandas', function (Blueprint $table) {
+        Schema::create('comandes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('usuari_id')->constrained('usuaris')->onDelete('cascade');
+            $table->unsignedBigInteger('usuari_id');
+            $table->string('producte');
+            $table->decimal('quantitat', 8, 2);
             $table->timestamps();
+        
+            $table->foreign('usuari_id')->references('id')->on('usuaris');
         });
     }
 

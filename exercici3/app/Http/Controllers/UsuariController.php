@@ -4,16 +4,19 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Usuari;
 
 class UsuariController extends Controller
 {
     public function index()
     {
+        // Consulta amb Query Builder
         $usuaris = DB::table('usuaris')
-            ->join('comandas', 'usuaris.id', '=', 'comandas.usuari_id')
-            ->select('usuaris.nom', DB::raw('COUNT(comandas.id) as total_comandes'))
-            ->groupBy('usuaris.nom')
-            ->havingRaw('COUNT(comandas.id) > 0')
+            ->join('comandes', 'usuaris.id', '=', 'comandes.usuari_id')
+            ->select('usuaris.id', 'usuaris.nom', DB::raw('COUNT(comandes.id) as total_comandes'))
+            ->groupBy('usuaris.id', 'usuaris.nom')
+            ->having('total_comandes', '>', 0)
+            ->orderBy('usuaris.nom')
             ->get();
 
         return view('usuaris.index', compact('usuaris'));

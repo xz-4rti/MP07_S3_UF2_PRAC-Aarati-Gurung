@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UsuariController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/usuaris', [UsuariController::class, 'index']);
